@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block content %}
+<section class="product_detail_section layout_padding mt-5">
+    <div class="container">
+       <div class="product_image">
+            <img src="{{ item.image.url }}" alt=".." class="img-fluid">
+        </div>
+       <div class="product_details">
+          <h1>{{item.name}}</h1>
+          <h5>₹ {{item.price}}</h5>
+          <h6>Available Stock: {{item.stock}}</h6>
+          <p>{{item.desc}}</p>
+          <div class="option_container">
+             <div class="options">
+                <a href="{% url 'cart:addtocart' item.id %}" class="option1">Add To Cart</a>
+             </div>
+          </div>
+        </div>
+    </div>
+</section>
+{%endblock%}
+

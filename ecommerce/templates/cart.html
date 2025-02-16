@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block slider %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+   <div class="row mt-3">
+      <div class="col-md-8">
+         <table class="table table-bordered border-dark">
+            <tr class="text-center">
+               <th colspan="6" class="p-3">
+                  CART ITEMS
+               </th>
+            </tr>
+            {% for i in cart %}
+            <tr class="text-center">
+               <td class="p-2"><img src="{{i.product.image.url}}" height="100px" width="100px"></td>
+               <td class="p-2">Product Name: {{i.product.name}}</td>
+               <td class="p-2">Product Id: {{i.product.id}}</td>
+               <td class="p-2">Quantity: {{i.quantity}}<br>
+               Unit Price: {{i.product.price}}</td>
+               <td class="p-2">Subtotal: {{i.subtotal}}</td>
+               {% if i.product.stock > 0 %}
+               <td class="p-2"><a href="{% url 'cart:addtocart' i.product.id %}"><i class="fa-solid m-1 fa-circle-plus"></i></a><a href="{% url 'cart:cart_decrement' i.product.id %}"><i class="fa-solid m-1 fa-circle-minus"></i></a><a href="{% url 'cart:cart_delete' i.product.id %}"><i class="fa-solid m-1 fa-trash"></i></a></td>
+               {% else %}
+               <td class="p-2"><a href="{% url 'cart:cart_decrement' i.product.id %}"><i class="fa-solid m-1 fa-circle-minus"></i></a><a href="{% url 'cart:cart_delete' i.product.id %}"><i class="fa-solid m-1 fa-trash"></i></a></td>
+               {% endif %}
+            </tr>
+            {% endfor %}
+         </table>
+      </div>
+      <div class="col-md-4">
+         <table class="table table-bordered border-dark">
+            <tr class="text-center">
+               <th colspan="4">
+                  CHECK OUT
+               </th>
+            </tr>
+            <tr class="text-center">
+               <td>Total:{{total}}</td>
+            </tr>
+         </table>
+         <div class="d-flex justify-content-between order_checkout">
+            <a href="{% url 'cart:orderform' %}" class="btn-dark p-2">Place Order</a>
+            <a href="{% url 'shop:category' %}" class="btn-dark p-2">Continue Shopping</a>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

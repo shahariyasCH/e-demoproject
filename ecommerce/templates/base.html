@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <title>Organic - Grocery Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <header>
+      <div class="container-fluid">
+        <div class="row py-3 border-bottom">
+          <div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
+            <div class="d-flex align-items-center my-3 my-sm-0">
+              <a href="index.html">
+                <img src="{% static 'images/logo.svg' %}" alt="logo" class="img-fluid">
+              </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar">
+              <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#menu"></use></svg>
+            </button>
+          </div>
+
+          <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
+            <div class="search-bar row bg-light p-2 rounded-4">
+              <div class="col-md-4 d-none d-md-block">
+                <select class="form-select border-0 bg-transparent" onchange="if(this.value) window.location.href=this.value;">
+
+                 {% for i in links %}
+                  <option value="{% url 'shop:products' i.id %}">{{i.name}}</option>
+                  {% endfor %}
+                  <option value="{% url 'shop:category' %}">All Categories</option>
+
+                </select>
+              </div>
+
+            <div class="col-11 col-md-7">
+              <form class="text-center" method="POST" action="{% url 'search:search_products' %}">
+                  {% csrf_token %}
+                  <input type="text" name="q" class="form-control border-0 bg-transparent" placeholder="Search products" aria-label="Search products">
+                  <button type="submit" hidden aria-label="Submit search"></button>
+              </form>
+            </div>
+
+              <div class="col-1">
+                <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#search"></use></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 d-none d-lg-block">
+            <ul class="navbar-nav list-unstyled d-flex flex-row gap-5 justify-content-center align-items-center mb-0 fw-bold text-uppercase">
+              <li class="nav-item active">
+                <a href="{% url 'shop:category' %}" class="nav-link">Home</a>
+                </li>
+              {% if user.is_authenticated %}
+                 <li>
+                <a href="{% url 'shop:logout' %}" class="nav-link">Logout</a>
+              </li>
+               <li>
+                <a href="{% url 'cart:orderview' %}" class="nav-link">OrderView</a>
+              </li>
+                {% else %}
+              <li>
+                <a href="{% url 'shop:register' %}" class="nav-link">Register</a>
+              </li>
+              <li>
+                <a href="{% url 'shop:login' %}" class="nav-link">Login</a>
+              </li>
+              {% endif %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Pages</a>
+                <ul class="dropdown-menu">
+                  <li><a href="#" class="dropdown-item">About</a></li>
+                  <li><a href="#" class="dropdown-item">Shop</a></li>
+                  <li><a href="#" class="dropdown-item">Contact</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
+            <ul class="d-flex justify-content-end list-unstyled m-0">
+              <li>
+                <a href="#" class="p-2 mx-1">
+                  <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="p-2 mx-1">
+                  <svg width="24" height="24"><use xlink:href="#wishlist"></use></svg>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'cart:cartview' %}" class="p-2 mx-1">
+                  <svg width="24" height="24"><use xlink:href="#shopping-bag"></use></svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+<!-- Nav bar End-->
+
+
+
+
+
+    {% block content %}
+    {% endblock %}
+
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark text-light">
+      <div class="container-lg">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 mb-4">
+            <img src="{% static 'images/logo.svg' %}" width="200" alt="Logo">
+            <div class="social-links mt-3">
+              <a href="#" class="btn btn-outline-light me-2"><svg width="16" height="16"><use xlink:href="#facebook"></use></svg></a>
+              <a href="#" class="btn btn-outline-light me-2"><svg width="16" height="16"><use xlink:href="#twitter"></use></svg></a>
+              <a href="#" class="btn btn-outline-light me-2"><svg width="16" height="16"><use xlink:href="#instagram"></use></svg></a>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-6 mb-4">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-light text-decoration-none">About Us</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
+              <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-3 col-6 mb-4">
+            <h5>Categories</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-light text-decoration-none">Fruits</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Vegetables</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Dairy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h5>Newsletter</h5>
+            <form class="mt-3">
+              <input type="email" class="form-control mb-2" placeholder="Enter email">
+              <button class="btn btn-primary w-100">Subscribe</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row pt-4 border-top">
+          <div class="col-md-6">
+            <p class="mb-0">© 2024 Organic. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p class="mb-0">Design by TemplatesJungle</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- SVG Symbols -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="menu" viewBox="0 0 24 24"><path d="M2 6h20v2H2zm0 5h20v2H2zm0 5h20v2H2z"/></symbol>
+      <symbol id="search" viewBox="0 0 24 24"><path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 1 0 1.42-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/></symbol>
+      <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><path d="M19 20a7 7 0 0 0-14 0"/></symbol>
+      <symbol id="wishlist" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+      <symbol id="shopping-bag" viewBox="0 0 24 24"><path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-9-1a2 2 0 1 1 4 0v1h-4V6zm9 14H5V9h3v2h2V9h4v2h2V9h3v10z"/></symbol>
+      <symbol id="facebook" viewBox="0 0 24 24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></symbol>
+      <symbol id="twitter" viewBox="0 0 24 24"><path d="M22 5.924a8.2 8.2 0 0 1-2.356.646 4.1 4.1 0 0 0 1.804-2.27 8.3 8.3 0 0 1-2.606.996 4.1 4.1 0 0 0-7.1 2.81 4.3 4.3 0 0 0 .105.936 11.6 11.6 0 0 1-8.457-4.3 4.1 4.1 0 0 0 1.27 5.48 4.1 4.1 0 0 1-1.858-.513v.05a4.1 4.1 0 0 0 3.292 4.023 4.1 4.1 0 0 1-1.08.143 4 4 0 0 1-.773-.072 4.1 4.1 0 0 0 3.833 2.85 8.3 8.3 0 0 1-5.1 1.756 8 8 0 0 1-.977-.057 11.6 11.6 0 0 0 6.29 1.843c7.547 0 11.673-6.252 11.673-11.673l-.014-.531A8.3 8.3 0 0 0 22 5.924z"/></symbol>
+      <symbol id="instagram" viewBox="0 0 24 24"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.9 4.9 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.247-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.9 4.9 0 0 1 1.153-1.772A4.9 4.9 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 0 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></symbol>
+    </svg>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+      // Initialize Swiper
+      const categorySwiper = new Swiper('.category-carousel', {
+        slidesPerView: 2,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.category-carousel-next',
+          prevEl: '.category-carousel-prev',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 4
+          },
+          992: {
+            slidesPerView: 5
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
