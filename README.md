@@ -23,10 +23,10 @@ A fully functional, secure, and responsive **E-Commerce Web Application** built 
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/ecommerce-django-app.git
+git clone https://github.com/shahariyasCH/e-demoproject.git
 
 # Navigate into the project directory
-cd ecommerce-django-app
+e-demoproject
 
 # Create a virtual environment
 python -m venv env
